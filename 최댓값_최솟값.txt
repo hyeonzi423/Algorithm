@@ -1,5 +1,0 @@
-def solution(s):
-    tmp = list(map(int, s.split()))
-    max_n, min_n = max(tmp), min(tmp)
-    answer = str(min_n) + " " + str(max_n)
-    return answer
