@@ -6,5 +6,5 @@ def solution(a, b, n):
         if x * b + y < a:
             break
         else:
-            n = x * b + y
+            n = x * b + y 
     return answer
