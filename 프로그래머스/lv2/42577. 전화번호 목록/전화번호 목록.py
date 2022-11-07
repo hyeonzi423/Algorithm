@@ -6,5 +6,3 @@ def solution(phone_book):
             answer = False
             break
     return answer
-
-print(solution(["934793", "34", "44", "9347"]))
