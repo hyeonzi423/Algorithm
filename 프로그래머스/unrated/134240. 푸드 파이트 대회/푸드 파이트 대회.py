@@ -9,7 +9,7 @@ def solution(food):
             res.append(str(index))
             res.appendleft(str(index))
         index -= 1
-    answer = ''
+    answer = '' 
     for i in res:
         answer += str(i)
     return answer
