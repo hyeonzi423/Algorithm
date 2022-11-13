@@ -3,7 +3,7 @@ def solution(food):
     res = [0]
     res = deque(res)
     index = len(food) - 1
-    for i in food[::-1]:
+    for i in food[::-1]: 
         half = i // 2
         for j in range(half):
             res.append(str(index))
