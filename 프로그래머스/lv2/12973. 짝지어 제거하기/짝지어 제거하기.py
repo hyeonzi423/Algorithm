@@ -1,6 +1,5 @@
 def solution(s):
-    check = []
-    check.append(s[0])
+    check = [s[0]]
     for i in range(1, len(s)):
         if len(check) != 0 and check[-1] == s[i]:
             check.pop()
