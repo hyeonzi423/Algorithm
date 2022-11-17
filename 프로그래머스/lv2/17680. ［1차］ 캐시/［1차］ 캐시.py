@@ -21,5 +21,4 @@ def solution(cacheSize, cities):
                 time += 5
                 cache.remove(cache[0])
                 cache.append(i.lower())
-    print(time)
     return time
