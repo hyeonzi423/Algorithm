@@ -17,8 +17,6 @@ def solution(s):
     list_s = change(s)
     set_s = set(list_s)  
     count, answer = [], []
-    for i in set_s:
-        count.append(list_s.count(i))
     dic_cnt = {int(i):list_s.count(i) for i in set_s}
     dic_cnt = sorted(dic_cnt.items(), reverse = True, key = lambda item: item[1])
     for i in dic_cnt:
