@@ -8,8 +8,7 @@ def solution(record):
     dic_io = {user_id: [] for user_id in set(uid)}
     for r in record_l:
         if r[0] != "Leave":
-            dic_io[r[1]].append(r[2])
-    dic_io = {a: b[-1] for a, b in dic_io.items()}
+            dic_io[r[1]] = r[2]
     
     for i in record_l:
         if i[0] == "Enter":
