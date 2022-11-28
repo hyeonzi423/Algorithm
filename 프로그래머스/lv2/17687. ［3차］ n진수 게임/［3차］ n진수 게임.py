@@ -1,4 +1,3 @@
-import string
 def convert(n, k) :
     number = '0123456789ABCDEF'
     jinsu = ''
@@ -11,13 +10,13 @@ def convert(n, k) :
 def solution(n, t, m, p):
     num, answer = '0', ''
     tmp = 1
-    while True:
-        if len(num) >= t*m:
-            break
-        else:
-            num += convert(tmp, n)
+    
+    while len(num) < t*m:
+        num += convert(tmp, n)
         tmp += 1
+        
     for i in range(len(num)):
         if i % m + 1 == p :
             answer += num[i]
+            
     return answer[:t]
