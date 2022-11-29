@@ -1,7 +1,7 @@
 a, b = map(int, input().split())
 cnt = 0
 
-while b != a:
+while True:
     tmp = b
     if b % 2 == 0:
         b //= 2
