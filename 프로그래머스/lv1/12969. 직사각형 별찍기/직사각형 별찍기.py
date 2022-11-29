@@ -1,4 +1,3 @@
-a, b = map(int, input().strip().split(' '))
-star = ["*"*a]*b
-for i in star:
-    print(i)
+a, b = map(int, input().split())
+for i in range(b):
+    print("*"*a)
