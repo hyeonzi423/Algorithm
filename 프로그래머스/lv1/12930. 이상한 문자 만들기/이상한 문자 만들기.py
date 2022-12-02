@@ -2,8 +2,6 @@ def solution(s):
     answer = ""
     tmp =  list(map(str, s.split(" ")))
     for i in range(len(tmp)):
-        if tmp[i] == " ":
-            answer += " " 
         for j in range(len(tmp[i])):
             if j % 2 == 0:
                 answer += str(tmp[i][j].upper())
