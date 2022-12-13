@@ -10,7 +10,7 @@ def solution(dirs):
             nx += 1
         elif i == 'L' and nx > -5:
             nx -= 1
-        if (x == nx and y == ny) == False:    
+        if x != nx or y != ny:    
             if (x, y, nx, ny) not in res:
                 if (nx, ny, x, y) not in res:                
                     res.append((x, y, nx, ny))
