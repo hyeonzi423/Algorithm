@@ -4,10 +4,7 @@ def solution(num):
         return 0
     else:
         while True:
-            if num % 2 == 0:
-                num /= 2
-            else:
-                num = num*3 + 1
+            num =  num / 2 if num % 2 == 0 else num*3 + 1
             answer += 1
             if num == 1:
                 break
