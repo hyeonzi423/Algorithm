@@ -8,5 +8,5 @@ def solution(dots):
             remain.remove(j)
             slide2 = (dots[remain[1]][1] - dots[remain[0]][1]) / (dots[remain[1]][0] - dots[remain[0]][0])
             if slide1 == slide2:
-                answer += 1
-    return 1 if answer != 0 else 0
+                return 1
+    return 0
