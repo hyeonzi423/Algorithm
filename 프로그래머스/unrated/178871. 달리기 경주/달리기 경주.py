@@ -1,15 +1,8 @@
 def solution(players, callings):
-    play = {players[i]: i for i in range(len(players))}
-    idx = {i: players[i] for i in range(len(players))}
+    p = {}
+    for i in range(players):
+        p[players[i]] = i
         
-    for c in callings:
-        now_idx = play[c] #idx
-        pre_idx = now_idx - 1
+    for i in range(len(callings)):
         
-        now_name = idx[now_idx]
-        pre_name = idx[pre_idx]
-        
-        play[now_name], play[pre_name] = pre_idx, now_idx
-        idx[now_idx], idx[pre_idx] = pre_name, now_name
-
-    return list(idx.values())
+    return players
