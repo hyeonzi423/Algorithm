@@ -1,15 +1,14 @@
 def solution(s):
-    check = []
     answer = True
-    for i in s:
-        if i == "(":
-            check.append(i)
+    n = 0
+    for i in range(len(s)):
+        if s[i] == '(':
+            n += 1
         else:
-            if len(check) == 0:
-                answer = False
-                break
+            if n < 1:
+                return False
             else:
-                check.pop()
-    if len(check) != 0:
-        answer = False
-    return answer
+                n -= 1
+    if n != 0:
+        return False
+    return True
