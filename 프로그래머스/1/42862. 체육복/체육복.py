@@ -1,15 +1,14 @@
 def solution(n, lost, reserve):
-    s = 0
-    real_reserve = list(set(reserve) - set(lost))
+    answer = n
     real_lost = list(set(lost) - set(reserve))
+    real_reserve = list(set(reserve) - set(lost))
+    cnt = 0
     real_lost.sort()
-    real_reserve.sort()
-    for i in real_lost:
-        if i - 1 in real_reserve:
-            real_reserve.remove(i - 1)
-            s += 1
-        elif i + 1 in real_reserve: 
-            real_reserve.remove(i + 1)
-            s += 1
-    answer = n - len(real_lost) + s
-    return answer
+    for l in real_lost:
+        if l-1 in real_reserve:
+            real_reserve.remove(l-1)
+            cnt += 1
+        elif l+1 in real_reserve:
+            real_reserve.remove(l+1)
+            cnt += 1
+    return answer - len(real_lost) + cnt
