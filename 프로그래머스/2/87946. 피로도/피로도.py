@@ -1,18 +1,20 @@
 from itertools import permutations
 def solution(k, dungeons):
-    answer = -1
     init_k = k
-    dict_dungeons = dict(dungeons)
-    dungeons = [a for a, b in dungeons]
-    
-    for route in list(set(permutations(dungeons, len(dungeons)))):
-        k, c, cnt = init_k, True, 0
-        for r in route:
-            if k >= r:
-                k -= dict_dungeons[r]
+    answer = -1
+    for i in list(permutations(dungeons, len(dungeons))):
+        tmp = i
+        cnt = 0
+        k = init_k
+        for t in tmp:
+            if k >= t[0]:
+                k -= t[1]
                 cnt += 1
             else:
-                c = False
                 break
+        
+        if cnt == len(dungeons):
+            answer = cnt
+            break
         answer = max(answer, cnt)
     return answer
