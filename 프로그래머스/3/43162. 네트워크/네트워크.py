@@ -1,22 +1,15 @@
-from collections import deque
 def solution(n, computers):
     ans = 0
     
-    def bfs(i):
-        q = deque()
-        q.append(i)
-        visited[i] = 1
-        while q:
-            node = q.popleft()
-            for c in range(n):
-                if computers[node][c] and not visited[c]:
-                    q.append(c)
-                    visited[c] = 1
-            
+    def dfs(a):
+        visited[a] = 1
+        for j in range(n):
+            if computers[a][j] and not visited[j]:
+                dfs(j)
+    
     visited = [0]*n
-    for f in range(n):
-        if not visited[f]:
-            bfs(f)
-            ans += 1
-        
+    for i in range(n):
+        if not visited[i]:
+            dfs(i)
+            ans += 1  
     return ans
