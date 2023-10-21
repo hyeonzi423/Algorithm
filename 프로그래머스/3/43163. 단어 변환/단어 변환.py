@@ -6,17 +6,17 @@ def solution(begin, target, words):
     visited = [0] * len(words)
     
     while q:
-        now, num = q.popleft()
-        if now == target:
-            answer = num
+        b, c = q.popleft()
+        if b == target:
+            answer = c
             break
         for i in range(len(words)):
-            if not visited[i]:
-                cnt = 0
-                for j in range(len(begin)):
-                    if now[j] != words[i][j]:
+            cnt = 0
+            for j in range(len(words[0])):
+                if not visited[i]:
+                    if b[j] != words[i][j]:
                         cnt += 1
-                if cnt == 1:
-                    q.append([words[i], num + 1])
-                    visited[i] = 1
+            if cnt == 1:
+                visited[i] = 1
+                q.append([words[i], c+1])       
     return answer
