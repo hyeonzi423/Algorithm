@@ -20,11 +20,6 @@ public class Solution {
 			this.num = num;
 			this.dir = dir;
 		}
-
-		@Override
-		public String toString() {
-			return "Microbe [x=" + x + ", y=" + y + ", num=" + num + ", dir=" + dir + "]";
-		}
 		
 	}
 	public static void main(String[] args) throws IOException{
@@ -55,7 +50,6 @@ public class Solution {
 			for(int i = 0; i < M; i++) {
 				move();
 				merge();
-				//System.out.println();
 			}
 			cal();
 			sb.append("#").append(tc).append(" ").append(ans).append("\n");
@@ -112,16 +106,6 @@ public class Solution {
 				}
 			}
 		}
-//		for(int i = 0; i < N; i++) {
-//			for(int j = 0; j < N; j++) {
-//				if(map[i][j].size() == 0) continue;
-//				for(Microbe m : map[i][j]) {
-//					System.out.print(m);
-//				}
-//				System.out.println();
-//			}
-//		}
-		
 	}
 	
 	public static void cal() {
