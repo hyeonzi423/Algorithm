@@ -39,11 +39,7 @@ public class Main {
         }
 
         private int compareStrings(String s1, String s2) {
-            int len1 = s1.length();
-            int len2 = s2.length();
-            int minLength = Math.min(len1, len2);
-
-            for (int i = 0; i < minLength; i++) {
+        	for (int i = 0; i < s1.length(); i++) {
                 char c1 = s1.charAt(i);
                 char c2 = s2.charAt(i);
                 if (c1 != c2) {
@@ -58,7 +54,7 @@ public class Main {
                     }
                 }
             }
-            return len1 - len2; // 앞 부분이 동일한 경우 길이로 비교
+        	return 0;
         }
     }
 
