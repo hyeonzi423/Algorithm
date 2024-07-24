@@ -24,6 +24,6 @@ class Solution {
                 time++;
             }
         }
-        return answer/jobs.length;
+        return answer/jobs.length; 
     }
 }
