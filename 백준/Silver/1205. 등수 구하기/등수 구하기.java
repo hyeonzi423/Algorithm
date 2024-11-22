@@ -24,7 +24,7 @@ class Main {
         if(N == 0){
             System.out.println(1);   
         }else{
-            System.out.println(front == P ? -1 : rank + 1);   
+            System.out.println(front >= P ? -1 : rank + 1);   
         }
     }
 }
