@@ -3,48 +3,25 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Main {
-	static int[] arr;
-	static int N, M;
-
+class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N = Integer.parseInt(br.readLine());
-		M = Integer.parseInt(br.readLine());
+		int N = Integer.parseInt(br.readLine());
+		int M = Integer.parseInt(br.readLine());
 
-		arr = new int[M];
+		int[] pos = new int[M];
+		int ans = 0;
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for (int i = 0; i < M; i++) {
-			arr[i] = Integer.parseInt(st.nextToken());
-		}
-
-		int left = 1;
-		int right = N;
-		int result = 0;
-
-		while (left <= right) {
-			int mid = (left + right) / 2;
-			if (check(mid)) {
-				result = mid;
-				right = mid - 1;
-			} else
-				left = mid + 1;
-		}
-		System.out.println(result);
-	}
-
-	static boolean check(int tmp) {
-		int prev = 0;
-
-		for (int i = 0; i < arr.length; i++) {
-
-			if (arr[i] - tmp <= prev) {
-				prev = arr[i] + tmp;
+			pos[i] = Integer.parseInt(st.nextToken());
+			if (i == 0) {
+				ans = pos[i];
 			} else {
-				return false;
+				int dis = (pos[i] - pos[i - 1]) % 2 == 0 ? (pos[i] - pos[i - 1]) / 2 : (pos[i] - pos[i - 1]) / 2 + 1;
+				ans = Math.max(ans, dis);
 			}
-
 		}
-		return N - prev <= 0;
+		ans = Math.max(ans, N - pos[M - 1]);
+		System.out.println(ans);
 	}
 }
