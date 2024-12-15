@@ -64,15 +64,11 @@ class Main {
 			r.user.sort((a, b) -> a.name.compareTo(b.name));
 			if (r.user.size() >= M) {
 				sb.append("Started!").append("\n");
-				for (User u : r.user) {
-					sb.append(u.level).append(" ").append(u.name).append("\n");
-				}
-				continue;
 			} else {
 				sb.append("Waiting!").append("\n");
-				for (User u : r.user) {
-					sb.append(u.level).append(" ").append(u.name).append("\n");
-				}
+			}
+			for (User u : r.user) {
+				sb.append(u.level).append(" ").append(u.name).append("\n");
 			}
 		}
 		System.out.println(sb);
