@@ -1,95 +1,94 @@
-import java.awt.Point;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-class Main {
+public class Main {
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
+    static int N, L, R;
+    static int[][] population;
+    static boolean[][] visited;
+    static int[] dx = {-1, 0, 1, 0};
+    static int[] dy = {0, 1, 0, -1};
 
-		int N = Integer.parseInt(st.nextToken());
-		int L = Integer.parseInt(st.nextToken());
-		int R = Integer.parseInt(st.nextToken());
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-		int[][] population = new int[N][N];
-		for (int i = 0; i < N; i++) {
-			st = new StringTokenizer(br.readLine());
-			for (int j = 0; j < N; j++) {
-				population[i][j] = Integer.parseInt(st.nextToken());
-			}
-		}
+        N = Integer.parseInt(st.nextToken());
+        L = Integer.parseInt(st.nextToken());
+        R = Integer.parseInt(st.nextToken());
 
-		int[][] tmp;
-		boolean[][] visited;
-		boolean flag = true;
-		int ans = 0;
+        population = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < N; j++) {
+                population[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
 
-		int[] dx = { -1, 0, 1, 0 };
-		int[] dy = { 0, 1, 0, -1 };
+        int ans = 0;
 
-		while (true) {
-			if (!flag) {
-				break;
-			}
-			flag = false;
-			visited = new boolean[N][N];
-			tmp = new int[N][N];
+        while (true) {
+            visited = new boolean[N][N];
+            boolean isMoved = false;
 
-			for (int i = 0; i < N; i++) {
-				for (int j = 0; j < N; j++) {
-					if (!visited[i][j]) {
-						ArrayList<Point> pos = new ArrayList<>();
-						int total = population[i][j];
-						visited[i][j] = true;
-						pos.add(new Point(i, j));
-						Queue<Point> q = new LinkedList<>();
-						q.add(new Point(i, j));
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    if (!visited[i][j]) {
+                        if (bfs(i, j)) {
+                            isMoved = true;
+                        }
+                    }
+                }
+            }
 
-						while (!q.isEmpty()) {
-							Point now = q.poll();
-							for (int k = 0; k < 4; k++) {
-								int nx = now.x + dx[k];
-								int ny = now.y + dy[k];
-								if (nx < 0 || nx >= N || ny < 0 || ny >= N) {
-									continue;
-								}
-								if (visited[nx][ny]) {
-									continue;
-								}
-								int gap = Math.abs(population[now.x][now.y] - population[nx][ny]);
-								if (gap >= L && gap <= R) {
-									total += population[nx][ny];
-									visited[nx][ny] = true;
-									q.add(new Point(nx, ny));
-									pos.add(new Point(nx, ny));
-								}
-							}
-						}
-						int newPop = total / pos.size();
-						if (pos.size() > 1) {
-							flag = true;
-						}
-						for (Point p : pos) {
-							tmp[p.x][p.y] = newPop;
-						}
-					}
-				}
-			}
-			for (int i = 0; i < N; i++) {
-				for (int j = 0; j < N; j++) {
-					population[i][j] = tmp[i][j];
-				}
-			}
-			if (flag) {
-				ans++;
-			}
-		}
-		System.out.println(ans);
-	}
+            if (!isMoved) {
+                break;
+            }
+            ans++;
+        }
+
+        System.out.println(ans);
+    }
+
+    static boolean bfs(int x, int y) {
+        Queue<int[]> q = new LinkedList<>();
+        List<int[]> union = new ArrayList<>();
+
+        q.add(new int[]{x, y});
+        union.add(new int[]{x, y});
+        visited[x][y] = true;
+
+        int total = population[x][y];
+
+        while (!q.isEmpty()) {
+            int[] now = q.poll();
+            int curX = now[0], curY = now[1];
+
+            for (int i = 0; i < 4; i++) {
+                int nx = curX + dx[i];
+                int ny = curY + dy[i];
+
+                if (nx < 0 || ny < 0 || nx >= N || ny >= N || visited[nx][ny]) {
+                    continue;
+                }
+
+                int gap = Math.abs(population[curX][curY] - population[nx][ny]);
+                if (gap >= L && gap <= R) {
+                    q.add(new int[]{nx, ny});
+                    union.add(new int[]{nx, ny});
+                    visited[nx][ny] = true;
+                    total += population[nx][ny];
+                }
+            }
+        }
+
+        if (union.size() > 1) {
+            int newPop = total / union.size();
+            for (int[] pos : union) {
+                population[pos[0]][pos[1]] = newPop;
+            }
+            return true;
+        }
+        return false;
+    }
 }
