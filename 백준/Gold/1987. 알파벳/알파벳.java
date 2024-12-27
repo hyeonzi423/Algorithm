@@ -3,41 +3,52 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Main {
-	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	static StringTokenizer st;
-	static int R, C, cnt, ans = 1;
-	static char[][] map;
-	static boolean[] visited;
-	static int[] dx = { -1, 0, 1, 0 };
-	static int[] dy = { 0, 1, 0, -1 };
+class Main {
 
-	public static void main(String[] args) throws IOException {
-		st = new StringTokenizer(br.readLine());
-		R = Integer.parseInt(st.nextToken());
-		C = Integer.parseInt(st.nextToken());
+    static int R, C, ans;
+    static char[][] map;
+    static int[] dx = { -1, 0, 1, 0 };
+    static int[] dy = { 0, 1, 0, -1 };
 
-		map = new char[R][C];
-		for (int i = 0; i < R; i++) {
-			map[i] = br.readLine().toCharArray();
-		}
-		visited = new boolean[26];
-		visited[(int) map[0][0] - 65] = true;
-		dfs(0, 0, 1);
-		System.out.println(ans);
-	}
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        R = Integer.parseInt(st.nextToken());
+        C = Integer.parseInt(st.nextToken());
 
-	public static void dfs(int x, int y, int cnt) {
-		ans = Math.max(ans, cnt);
-		for (int i = 0; i < 4; i++) {
-			int nx = x + dx[i];
-			int ny = y + dy[i];
-			if (nx < 0 || nx >= R || ny < 0 || ny >= C ) continue;
-			if(visited[(int) map[nx][ny] - 65]) continue;
-			visited[(int) map[nx][ny] - 65] = true;
-			dfs(nx, ny, cnt+1);
-			visited[(int) map[nx][ny] - 65] = false;
-		}
-	}
+        map = new char[R][C];
 
+        for (int i = 0; i < R; i++) {
+            String str = br.readLine();
+            for (int j = 0; j < C; j++) {
+                map[i][j] = str.charAt(j);
+            }
+        }
+
+        ans = 0;
+        dfs(0, 0, 1 << (map[0][0] - 'A'), 1);
+        System.out.println(ans);
+    }
+
+    public static void dfs(int x, int y, int visited, int depth) {
+        ans = Math.max(ans, depth);
+
+        if (ans == 26) {
+            return;
+        }
+
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+
+            if (nx < 0 || ny < 0 || nx >= R || ny >= C) {
+                continue;
+            }
+
+            int nextChar = map[nx][ny] - 'A';
+            if ((visited & (1 << nextChar)) == 0) {
+                dfs(nx, ny, visited | (1 << nextChar), depth + 1);
+            }
+        }
+    }
 }
