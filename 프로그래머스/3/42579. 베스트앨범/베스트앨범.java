@@ -1,33 +1,36 @@
 import java.util.*;
+
 class Solution {
     public int[] solution(String[] genres, int[] plays) {
-        ArrayList<Integer> answer = new ArrayList<>();
-        HashMap<String, Integer> map = new HashMap<>();
-        HashMap<String, ArrayList<Integer>> list = new HashMap<>();
+        
+        HashMap<String, ArrayList<int[]>> g = new HashMap<>(); // 장르별 인덱스와 플레이 수
+        HashMap<String, Integer> p = new HashMap<>(); // 장르별 총 합
         
         for(int i = 0; i < genres.length; i++){
-            String g = genres[i];
-            if(map.containsKey(g)){
-                map.put(g, map.get(g) + plays[i]);
-                list.get(g).add(i);
-            }else{
-                map.put(g, plays[i]);
-                list.put(g, new ArrayList<>());
-                list.get(g).add(i);
+            ArrayList<int[]> arr = g.getOrDefault(genres[i], new ArrayList<>());
+            arr.add(new int[]{plays[i], i});
+            g.put(genres[i], arr);
+            
+            p.put(genres[i], p.getOrDefault(genres[i], 0) + plays[i]);
+        }
+        
+        List<String> sortedGenres = new ArrayList<>(p.keySet());
+        sortedGenres.sort((g1, g2) -> p.get(g2) - p.get(g1));
+        
+        ArrayList<Integer> res = new ArrayList<>();
+        for(String genre : sortedGenres){
+            ArrayList<int[]> songs = g.get(genre);
+            songs.sort((s1, s2) -> s2[0] - s1[0]);
+        
+            for(int i = 0; i < Math.min(2, songs.size()); i++){
+                res.add(songs.get(i)[1]);
             }
         }
         
-        List<Map.Entry<String, Integer>> mapList = new ArrayList<>(map.entrySet());
-        mapList.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
-        
-        for(Map.Entry<String, Integer> m : mapList){
-            ArrayList<Integer> tmp = list.get(m.getKey());
-            tmp.sort((s1, s2) -> plays[s2] - plays[s1]);
-            answer.add(tmp.get(0));
-            if(tmp.size() > 1){
-                answer.add(tmp.get(1));
-            }
+        int[] ans = new int[res.size()];
+        for(int i = 0; i < res.size(); i++){
+            ans[i] = res.get(i);
         }
-        return answer.stream().mapToInt(i -> i).toArray();
+        return ans;
     }
 }
