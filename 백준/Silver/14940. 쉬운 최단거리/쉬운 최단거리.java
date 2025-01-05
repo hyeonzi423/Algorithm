@@ -56,15 +56,18 @@ class Main {
 			}
 		}
 
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
 				if (map[i][j] == 1 && !visited[i][j]) {
-					System.out.print(-1 + " ");
+					sb.append(-1).append(" ");
 				} else {
-					System.out.print(ans[i][j] + " ");
+					sb.append(ans[i][j]).append(" ");
 				}
 			}
-			System.out.println();
+			sb.append("\n");
 		}
+
+		System.out.print(sb);
 	}
 }
