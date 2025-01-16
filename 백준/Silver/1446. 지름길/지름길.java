@@ -23,8 +23,6 @@ class Main {
 			}
 		}
 
-		Collections.sort(shortcuts, (a, b) -> a[0] - b[0]);
-
 		int[] dp = new int[D + 1];
 		for (int i = 0; i < D + 1; i++) {
 			dp[i] = i;
