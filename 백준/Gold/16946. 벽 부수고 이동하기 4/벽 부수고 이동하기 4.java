@@ -1,101 +1,106 @@
 import java.util.*;
 import java.io.*;
 
-class Main {
-
+public class Main {
     static int N, M;
-    static int[][] map, groupMap, ansMap;
-    static ArrayList<Integer> zeroGroupCount;
-    static int[] dx = {-1, 0, 1, 0};
-    static int[] dy = {0, 1, 0, -1};
-    
-    public static void main(String[] args) throws Exception{
+    static int[][] map, groupId, result;
+    static int[] groupSize;
+    static boolean[][] visited;
+    static int groupCount = 0;
+    static final int[] dx = {0, 0, 1, -1};
+    static final int[] dy = {1, -1, 0, 0};
+
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringTokenizer st;
+
+        st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-
-        map = new int[N][M];
-        groupMap = new int[N][M];
-        ansMap = new int[N][M]; 
-        for(int i = 0; i < N; i++){
-            String str = br.readLine();
-            for(int j = 0; j < M; j++){
-                map[i][j] = str.charAt(j) - '0';
-            }
-        }
-
-        zeroGroupCount = new ArrayList<>();
-        bfs();
-
-        for(int i = 0; i < N; i++){
-            for(int j = 0; j < M; j++){
-                if(map[i][j] == 1){
-                    int cnt = 1;
-                    HashSet<Integer> set = new HashSet<>();
-                    for(int k = 0; k < 4; k++){
-                        int nx = i + dx[k];
-                        int ny = j + dy[k];
-                        if(!inRange(nx, ny)){
-                            continue;
-                        }if(set.contains(groupMap[nx][ny])){
-                            continue;
-                        }if(map[nx][ny] == 1){
-                            continue;
-                        }
-                        set.add(groupMap[nx][ny]);
-                        cnt += zeroGroupCount.get(groupMap[nx][ny] - 1);
-                    }
-                    ansMap[i][j] = cnt % 10;
-                }
-            }
-        }
         
-        for(int i = 0; i < N; i++){
-            for(int j = 0; j < M; j++){
-                System.out.print(ansMap[i][j]);
+        map = new int[N][M];
+        groupId = new int[N][M];
+        result = new int[N][M];
+        visited = new boolean[N][M];
+        List<Integer> groupSizes = new ArrayList<>();
+        groupSizes.add(0);
+
+        for (int i = 0; i < N; i++) {
+            String line = br.readLine();
+            for (int j = 0; j < M; j++) {
+                map[i][j] = line.charAt(j) - '0';
             }
-            System.out.println();
         }
-    }
 
-    public static void bfs(){
-        Queue<int[]> q = new LinkedList<>();
-        boolean[][] visited = new boolean[N][M];
-        int idx = 0;
-
-        for(int i = 0; i < N; i++){
-            for(int j = 0; j < M; j++){
-                if(map[i][j] == 0 && !visited[i][j]){
-                    q.clear();
-                    q.add(new int[]{i, j});
-                    visited[i][j] = true;
-                    groupMap[i][j] = ++idx;
-                    int tmpCnt = 1;
-
-                    while(!q.isEmpty()){
-                        int[] now = q.poll();
-                        for(int k = 0; k < 4; k++){
-                            int nx = now[0] + dx[k];
-                            int ny = now[1] + dy[k];
-                            if(!inRange(nx, ny)){
-                                continue;
-                            }if(visited[nx][ny] || map[nx][ny] == 1){
-                                continue;
-                            }
-                            groupMap[nx][ny] = idx;
-                            visited[nx][ny] = true;
-                            q.add(new int[]{nx, ny});
-                            tmpCnt++;
-                        }
-                    }
-                    zeroGroupCount.add(tmpCnt);
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (map[i][j] == 0 && !visited[i][j]) {
+                    groupSizes.add(bfs(i, j, groupCount + 1));
+                    groupCount++;
                 }
             }
         }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (map[i][j] == 1) {
+                    result[i][j] = getGroupSum(i, j, groupSizes);
+                }
+                sb.append(result[i][j]);
+            }
+            sb.append("\n");
+        }
+
+        System.out.print(sb.toString());
     }
 
-    public static boolean inRange(int x, int y){
-        return 0 <= x  && x < N && 0 <= y && y < M;
+    static int bfs(int x, int y, int id) {
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{x, y});
+        visited[x][y] = true;
+        groupId[x][y] = id;
+        int size = 1;
+
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            for (int d = 0; d < 4; d++) {
+                int nx = cur[0] + dx[d];
+                int ny = cur[1] + dy[d];
+
+                if (nx >= 0 && ny >= 0 && nx < N && ny < M) {
+                    if (!visited[nx][ny] && map[nx][ny] == 0) {
+                        visited[nx][ny] = true;
+                        groupId[nx][ny] = id;
+                        queue.add(new int[]{nx, ny});
+                        size++;
+                    }
+                }
+            }
+        }
+
+        return size;
+    }
+
+    static int getGroupSum(int x, int y, List<Integer> groupSizes) {
+        Set<Integer> uniqueGroups = new HashSet<>();
+        int sum = 1;
+
+        for (int d = 0; d < 4; d++) {
+            int nx = x + dx[d];
+            int ny = y + dy[d];
+
+            if (nx >= 0 && ny >= 0 && nx < N && ny < M) {
+                if (map[nx][ny] == 0) {
+                    int gid = groupId[nx][ny];
+                    if (!uniqueGroups.contains(gid)) {
+                        uniqueGroups.add(gid);
+                        sum += groupSizes.get(gid);
+                    }
+                }
+            }
+        }
+
+        return sum % 10;
     }
 }
