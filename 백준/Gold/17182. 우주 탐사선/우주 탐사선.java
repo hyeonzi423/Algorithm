@@ -44,11 +44,13 @@ class Main {
             return;
         }
 
+        if (sumTime >= ans) return;
+
         for (int i = 0; i < N; i++) {
             if (!visited[i]) {
                 visited[i] = true;
                 dfs(i, depth + 1, sumTime + time[now][i]);
-                visited[i] = false;  // 백트래킹
+                visited[i] = false;
             }
         }
     }
