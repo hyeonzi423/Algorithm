@@ -4,14 +4,17 @@ class Solution {
         for(int t : times){
             max = Math.max(t, max);
         }
-        long left = 1, right = max*n;
+        
+        long left = 1;
+        long right = max * n;
+        
         while(left < right){
-            long people = 0;
             long mid = (left + right) / 2;
+            long cnt = 0;
             for(int t : times){
-                people += mid / t;
+                cnt += mid/t;
             }
-            if(people >= n){
+            if(cnt >= n){
                 right = mid;
             }else{
                 left = mid + 1;
