@@ -1,27 +1,27 @@
 import java.util.*;
+
 class Solution {
     public int[] solution(String[] operations) {
-        int[] answer = new int[2];
-        PriorityQueue<Integer> minQ = new PriorityQueue<>();
-        PriorityQueue<Integer> maxQ = new PriorityQueue<>(Collections.reverseOrder());
+        PriorityQueue<Integer> max = new PriorityQueue<>(Collections.reverseOrder());
+        PriorityQueue<Integer> min = new PriorityQueue<>();
         
-        for(String o : operations){
-            if(o.equals("D 1")){
-                minQ.remove(maxQ.poll());
-            }else if(o.equals("D -1")){
-                maxQ.remove(minQ.poll());
-            }else{
-                String[] str = o.split(" ");
-                minQ.add(Integer.parseInt(str[1]));
-                maxQ.add(Integer.parseInt(str[1]));
+        for(String op : operations){
+            String[] o = op.split(" ");
+            if(o[0].equals("I")){
+                max.offer(Integer.parseInt(o[1]));
+                min.offer(Integer.parseInt(o[1]));
+            }else if(o[1].equals("1") && max.size() > 0){
+                int pop = max.poll();
+                min.remove(pop);
+            }else if(o[1].equals("-1") && max.size() > 0) {
+                int pop = min.poll();
+                max.remove(pop);
             }
         }
-        if(maxQ.size() == 0 && minQ.size() == 0){
-            return answer;
-        }else{
-            answer[0] = maxQ.peek();
-            answer[1] = minQ.peek();        
-            return answer;
-        }
-    }  
+        
+        int[] answer = new int[] {0, 0};
+        answer[0] = max.size() > 0 ? max.peek() : 0;
+        answer[1] = min.size() > 0 ? min.peek() : 0;
+        return answer;
+    }
 }
