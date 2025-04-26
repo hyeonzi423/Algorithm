@@ -16,7 +16,7 @@ class Solution {
             }
             if(cnt >= n){
                 right = mid;
-            }else{
+            } else{
                 left = mid + 1;
             }
         }
