@@ -1,16 +1,13 @@
 function solution(clothes) {
-    var cloth = new Map();
-    clothes.forEach(c => {
-        if(!cloth.has(c[1])){
-            cloth.set(c[1], []);
-        }
-        cloth.get(c[1]).push(c[0]);
-    })
+    const map = new Map();
     
-    var answer = 1;
-    for(const [kind, list] of cloth){
-        answer *= (1 + list.length);
+    for(const [item, kind] of clothes){
+        map.set(kind, (map.get(kind) || 0) + 1);
     }
     
+    var answer = 1;
+    for(const [key, value] of map){
+        answer *= (1 + value);
+    }
     return answer - 1;
 }
