@@ -1,52 +1,52 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
-public class Main {
-	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	static StringTokenizer st;
-	static int L, C;
-	static char[] list, secretCode;
-	
-	public static void main(String[] args) throws IOException{
-		st = new StringTokenizer(br.readLine());
-		L = Integer.parseInt(st.nextToken());
+class Main {
+
+    static int L, C;
+    static char[] alpha, secretCode;
+    static StringBuilder sb;
+    
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        L = Integer.parseInt(st.nextToken());
         C = Integer.parseInt(st.nextToken());
+
+        alpha = new char[C];
+        secretCode = new char[L];
+        sb = new StringBuilder();
         
-		list = new char[C];
-		secretCode = new char[L];
-		
-		st = new StringTokenizer(br.readLine());
-        for (int x = 0; x < C; x++) {
-            list[x] = st.nextToken().charAt(0);
+        st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < C; i++){
+            alpha[i] = st.nextToken().charAt(0);
         }
 
-        Arrays.sort(list);
+        Arrays.sort(alpha);
+        dfs(0, 0);
 
-        dfs(0,0);
-	}
+        System.out.println(sb);
+    }
 
-	private static void dfs(int start, int cnt) {
-		if(cnt == L) {
-			int a = 0, b = 0;
-			for(char tmp : secretCode) {
-				if(tmp == 'a' || tmp == 'e' || tmp == 'i' ||tmp == 'o' || tmp == 'u') {
-					a++;
-				}else {
-					b++;
-				}
-			}
-			if(a >= 1 && b >= 2) {
-				System.out.println(secretCode);
-			}
-			return;
-		}
-		for(int i = start; i < C; i++) {
-			secretCode[cnt] = list[i];
-			dfs(i + 1, cnt + 1);
-		}
-	}
+    public static void dfs(int start, int count){
+        if(count == L){
+            int a = 0, b = 0;
+            for(char tmp : secretCode) {
+				if(tmp == 'a' || tmp == 'e' || tmp == 'i' ||tmp == 'o' || tmp == 'u'){
+                    a++;
+                }else{
+                    b++;
+                }
+            }
+            if(a >= 1 && b >= 2){
+                sb.append(new String(secretCode)).append("\n");
+            }
+            return;
+        }
 
+        for(int i = start; i < C; i++){
+            secretCode[count] = alpha[i];
+            dfs(i + 1, count + 1);
+        }
+    }
 }
