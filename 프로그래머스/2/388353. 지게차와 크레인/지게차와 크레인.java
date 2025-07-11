@@ -50,7 +50,7 @@ public class Solution {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
-                if (isEdge(i, j) && !visited[i][j] && (map[i][j] == '0' || map[i][j] == target)) {
+                if (isEdge(i, j) && (map[i][j] == '0' || map[i][j] == target)){
                     visited[i][j] = true;
                     q.offer(new int[]{i, j});
                 }
