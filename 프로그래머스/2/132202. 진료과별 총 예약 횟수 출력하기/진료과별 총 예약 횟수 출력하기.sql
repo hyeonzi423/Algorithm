@@ -1,4 +1,5 @@
-select MCDP_CD as '진료과코드', count(*) as '5월예약건수' from APPOINTMENT  
-    where month(APNT_YMD) = '05' and year(APNT_YMD) = '2022'
-    group by MCDP_CD
-    order by count(MCDP_CD), MCDP_CD;
+SELECT MCDP_CD "진료과코드", COUNT(*) "5월예약건수"
+FROM APPOINTMENT 
+WHERE EXTRACT(YEAR FROM APNT_YMD) = 2022 AND EXTRACT(MONTH FROM APNT_YMD) = 5
+GROUP BY MCDP_CD
+ORDER BY 2, 1;
