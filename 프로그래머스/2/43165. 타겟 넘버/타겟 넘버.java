@@ -1,25 +1,23 @@
-import java.util.ArrayList;
+import java.util.*;
 
 class Solution {
     public int solution(int[] numbers, int target) {
-        ArrayList<Integer> list_n = new ArrayList<>();
-        list_n.add(0);
+        ArrayList<Integer> arr = new ArrayList<>();
+        arr.add(0);
         
-        for (int i = 0; i < numbers.length; i++) {
-            ArrayList<Integer> tmp = new ArrayList<>();
-            for (int j : list_n) {
-                tmp.add(j + numbers[i]);
-                tmp.add(j - numbers[i]);
+        for(int n : numbers){
+            ArrayList<Integer> tmp = new ArrayList<>(); 
+            for(int a : arr){
+                tmp.add(a + n);
+                tmp.add(a - n);
             }
-            list_n.clear();
-            list_n.addAll(tmp);
+            arr.clear();
+            arr.addAll(tmp);
         }
         
         int answer = 0;
-        for (int num : list_n) {
-            if (num == target) {
-                answer++;
-            }
+        for(int a : arr){
+            if(a == target) answer++;
         }
         return answer;
     }
