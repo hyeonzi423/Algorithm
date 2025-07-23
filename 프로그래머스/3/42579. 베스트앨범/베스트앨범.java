@@ -2,36 +2,31 @@ import java.util.*;
 
 class Solution {
     public int[] solution(String[] genres, int[] plays) {
-        Map<String, ArrayList<int[]>> gMap = new HashMap<>();
-        Map<String, Integer> cMap = new HashMap<>();
+        HashMap<String, Integer> gCnt = new HashMap<>();
+        HashMap<String, ArrayList<int[]>> mCnt = new HashMap<>();
         
         for(int i = 0; i < genres.length; i++){
-            ArrayList<int[]> ret = gMap.getOrDefault(genres[i], new ArrayList<>());
-            ret.add(new int[]{i, plays[i]});
-            gMap.put(genres[i], ret);
-            
-            int now = cMap.getOrDefault(genres[i], 0) + plays[i];
-            cMap.put(genres[i], now);
+            gCnt.put(genres[i], gCnt.getOrDefault(genres[i], 0) + plays[i]);
+            ArrayList<int[]> tmp = mCnt.getOrDefault(genres[i], new ArrayList<>());
+            tmp.add(new int[]{plays[i], i});
+            mCnt.put(genres[i], tmp);
         }
         
-        List<String> sorted = new ArrayList<>(cMap.keySet());
-        sorted.sort((g1, g2) -> cMap.get(g2) - cMap.get(g1));
+        List<String> gen = new ArrayList<>(gCnt.keySet());
+        Collections.sort(gen, (a, b) -> (gCnt.get(b) - gCnt.get(a)));
         
-        ArrayList<Integer> res = new ArrayList<>();
-        for(String s : sorted){
-            ArrayList<int[]> tmp = gMap.get(s);
-            tmp.sort((t1, t2) -> {
-                if(t1[1] != t2[1]) return t2[1] - t1[1];
-                return t1[0] - t2[0];
-            });
-            for(int i = 0; i < Math.min(2, tmp.size()); i++){
-                res.add(tmp.get(i)[0]);
+        ArrayList<Integer> answer = new ArrayList<>();
+        for(int i = 0; i < gen.size(); i++){
+            ArrayList<int[]> tmp = mCnt.get(gen.get(i));
+            tmp.sort((a, b) -> (b[0] - a[0]));
+            for(int j = 0; j < Math.min(2, tmp.size()); j++){
+                answer.add(tmp.get(j)[1]);
             }
         }
         
-        int[] ans = new int[res.size()];
-        for(int i = 0; i < res.size(); i++){
-            ans[i] = res.get(i);
+        int[] ans = new int[answer.size()];
+        for(int i = 0; i < answer.size(); i++){
+            ans[i] = answer.get(i);
         }
         return ans;
     }
