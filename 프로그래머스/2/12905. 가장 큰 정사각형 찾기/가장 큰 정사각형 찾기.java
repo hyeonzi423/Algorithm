@@ -1,7 +1,5 @@
-class Solution
-{
-    public int solution(int [][]board)
-    {
+class Solution{
+    public int solution(int [][]board){
         int answer = 1;
         if(zeroCheck(board)) return 0;
         
