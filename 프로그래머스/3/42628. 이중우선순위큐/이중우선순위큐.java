@@ -23,5 +23,5 @@ class Solution {
         answer[0] = max.size() > 0 ? max.peek() : 0;
         answer[1] = min.size() > 0 ? min.peek() : 0;
         return answer;
-    }
-}
+    } 
+} 
