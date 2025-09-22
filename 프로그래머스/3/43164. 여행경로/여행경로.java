@@ -1,27 +1,29 @@
 import java.util.*;
+
 class Solution {
     
-    static Map<String, PriorityQueue<String>> move;
-    static List<String> route;
+    static Map<String, PriorityQueue<String>> route = new HashMap<>();
+    static List<String> path = new ArrayList<>();
     
     public String[] solution(String[][] tickets) {
-        String[] answer = {};
-        move = new HashMap<>();
+        
         for(String[] t : tickets){
-            move.putIfAbsent(t[0], new PriorityQueue<>());
-            move.get(t[0]).add(t[1]);
+            PriorityQueue<String> tmp = route.getOrDefault(t[0], new PriorityQueue<>());
+            tmp.offer(t[1]);
+            route.put(t[0], tmp);
         }
         
-        route = new LinkedList<>();
         dfs("ICN");
-        
-        return route.toArray(new String[0]);
+        Collections.reverse(path);
+        return path.toArray(new String[path.size()]);
     }
     
-    public static void dfs(String airport){
-        while(move.containsKey(airport) && !move.get(airport).isEmpty()){
-            dfs(move.get(airport).poll());
+    public void dfs(String from){
+        PriorityQueue<String> pq = route.get(from);
+        while (pq != null && !pq.isEmpty()) {
+            String to = pq.poll();
+            dfs(to);
         }
-        route.add(0, airport);
+        path.add(from);
     }
 }
