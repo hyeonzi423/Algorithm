@@ -1,31 +1,31 @@
 import java.util.*;
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        int[] remain = new int[progresses.length];
-        for(int i = 0; i < progresses.length; i++){
-            int ret = (100 - progresses[i]) % speeds[i];
-            int day = (100 - progresses[i]) / speeds[i];
-            remain[i] = ret == 0 ? day : day + 1;
+        int[] remain = new int[speeds.length];
+        for(int i = 0; i < speeds.length; i++){
+            int a = (100 - progresses[i]) / speeds[i];
+            int b = (100 - progresses[i]) % speeds[i];
+            remain[i] = b == 0 ? a : a + 1;
         }
         
-        ArrayList<Integer> list = new ArrayList<>();
+        ArrayList<Integer> ans = new ArrayList<>();
         int cnt = 1;
         int last = remain[0];
-        for(int i = 1; i < progresses.length; i++){
+        for(int i = 1; i < speeds.length; i++){
             if(remain[i] > last){
-                list.add(cnt);
+                ans.add(cnt);
                 cnt = 1;
                 last = remain[i];
             }else{
                 cnt++;
             }
         }
-        list.add(cnt);
+        ans.add(cnt);
         
-        int[] arr = new int[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            arr[i] = list.get(i);
+        int[] answer = new int[ans.size()];
+        for(int i = 0; i < ans.size(); i++){
+            answer[i] = ans.get(i);
         }
-        return arr;
+        return answer;
     }
 }
