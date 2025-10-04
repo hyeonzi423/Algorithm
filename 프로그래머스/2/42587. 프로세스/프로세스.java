@@ -1,31 +1,27 @@
 import java.util.*;
-
 class Solution {
     public int solution(int[] priorities, int location) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
         Queue<int[]> q = new LinkedList<>();
         for(int i = 0; i < priorities.length; i++){
-            q.add(new int[]{i, priorities[i]});
+            q.add(new int[]{priorities[i], i});
+            pq.add(priorities[i]);
         }
         
-        int ans = 1;
+        int turn = 1;
         while(!q.isEmpty()){
-            int[] cur = q.poll(); // 현재 맨 앞의 item
-            boolean hasHiger = false;
+            int[] now = q.poll();
             
-            for(int[] item : q){ // 남은 항목들을 확인
-                if(item[1] > cur[1]){
-                    hasHiger = true;
-                    break;
+            if(now[0] == pq.peek()){
+                if(now[1] == location){
+                    return turn;
                 }
-            }
-            
-            if(hasHiger){
-                q.add(cur);
+                turn++;
+                pq.poll();
             }else{
-                if(location == cur[0]) return ans;
-                ans++;
+                q.add(now);
             }
         }
-        return priorities.length;
+        return turn;
     }
 }
