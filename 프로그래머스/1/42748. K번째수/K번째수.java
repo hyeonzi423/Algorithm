@@ -1,19 +1,21 @@
 import java.util.*;
-
 class Solution {
     public int[] solution(int[] array, int[][] commands) {
         int[] answer = new int[commands.length];
-        int idx = 0;
         
-        for(int[] c : commands){
+        for(int c = 0; c < commands.length; c++){
+            int[] now = commands[c];
             PriorityQueue<Integer> pq = new PriorityQueue<>();
-            for(int i = c[0]-1; i < c[1]; i++){
+            
+            for(int i = now[0] - 1; i < now[1]; i++){
                 pq.add(array[i]);
             }
-            for(int i = 0; i < c[2] - 1; i++){
+            
+            for(int i = 0; i < now[2] - 1; i ++){
                 pq.poll();
             }
-            answer[idx++] = pq.poll();
+            
+            answer[c] = pq.poll();
         }
         return answer;
     }
