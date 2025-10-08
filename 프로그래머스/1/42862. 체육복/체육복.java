@@ -15,10 +15,10 @@ class Solution {
             if (count[i] >= 0) {
                 answer++;
             } else {
-                if (i > 1 && count[i - 1] == 1) {
+                if (i > 1 && count[i - 1] >= 1) {
                     count[i - 1]--;
                     answer++;
-                } else if (i < n && count[i + 1] == 1) {
+                } else if (i < n && count[i + 1] >= 1) {
                     count[i + 1]--;
                     answer++;
                 }
