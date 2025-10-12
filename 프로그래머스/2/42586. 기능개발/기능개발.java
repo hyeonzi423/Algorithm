@@ -1,4 +1,5 @@
 import java.util.*;
+
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
         int[] remain = new int[speeds.length];
